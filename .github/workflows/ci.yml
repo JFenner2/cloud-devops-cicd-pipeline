@@ -1,0 +1,33 @@
+name: Continuous Integration
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t cicd-project4:test ./app
+
+      - name: Run Docker container
+        run: docker run -d --name cicd-project4-test -p 8080:80 cicd-project4:test
+
+      - name: Wait for application
+        run: sleep 5
+
+      - name: Test application
+        run: |
+          curl --fail http://localhost:8080
+          curl --fail http://localhost:8080 | grep "Cloud DevOps CI/CD Pipeline"
+
+      - name: Clean up container
+        if: always()
+        run: |
+          docker stop cicd-project4-test || true
+          docker rm cicd-project4-test || true
