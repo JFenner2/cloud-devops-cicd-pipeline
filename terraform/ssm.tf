@@ -71,7 +71,7 @@ resource "aws_ssm_document" "deploy" {
             "docker pull \"$IMAGE_URI\"",
             "docker rm -f cloud-devops-app || true",
 
-            "if ! docker run -d --name cloud-devops-app --restart unless-stopped -p 80:80 \"$IMAGE_URI\"; then",
+            "if ! docker run -d --name cloud-devops-app --restart unless-stopped -p 81:80 \"$IMAGE_URI\"; then",
             "  echo 'The new container failed to start'",
             "  rollback",
             "fi",
