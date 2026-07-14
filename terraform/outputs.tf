@@ -22,8 +22,8 @@ output "ec2_instance_id" {
 }
 
 output "application_url" {
-  description = "Public HTTP URL of the application"
-  value       = "http://${aws_instance.app.public_ip}"
+  description = "Stable public HTTP URL of the application"
+  value       = "http://${aws_eip.app.public_ip}"
 }
 
 output "security_group_id" {

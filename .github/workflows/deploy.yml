@@ -14,6 +14,7 @@ env:
   ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
   EC2_INSTANCE_ID: ${{ vars.EC2_INSTANCE_ID }}
   SSM_DOCUMENT_NAME: ${{ vars.SSM_DOCUMENT_NAME }}
+  APPLICATION_URL: ${{ vars.APPLICATION_URL }}
 
 jobs:
   build-test-publish-deploy:
@@ -121,6 +122,22 @@ jobs:
             echo "Deployment did not succeed."
             exit 1
           fi
+
+      - name: Verify public application endpoint
+        run: |
+          for attempt in $(seq 1 12); do
+            if curl --fail --silent "${APPLICATION_URL}" |
+              grep --quiet "Cloud DevOps CI/CD Pipeline"; then
+              echo "Public application health check passed"
+              exit 0
+            fi
+
+            echo "Public health check attempt ${attempt} failed"
+            sleep 5
+          done
+
+          echo "The application is not reachable through its public endpoint"
+          exit 1
 
       - name: Clean up test container
         if: always()
