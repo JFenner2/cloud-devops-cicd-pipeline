@@ -16,3 +16,17 @@ output "github_actions_role_arn" {
   description = "IAM role ARN that GitHub Actions will assume through OIDC"
   value       = aws_iam_role.github_actions.arn
 }
+output "ec2_instance_id" {
+  description = "ID of the application EC2 instance"
+  value       = aws_instance.app.id
+}
+
+output "application_url" {
+  description = "Public HTTP URL of the application"
+  value       = "http://${aws_instance.app.public_ip}"
+}
+
+output "security_group_id" {
+  description = "Security group attached to the application instance"
+  value       = aws_security_group.app.id
+}
