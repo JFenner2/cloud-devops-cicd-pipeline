@@ -73,6 +73,7 @@ jobs:
           COMMAND_ID=$(aws ssm send-command \
             --instance-ids "${EC2_INSTANCE_ID}" \
             --document-name "${SSM_DOCUMENT_NAME}" \
+            --document-version '$LATEST' \
             --parameters "{\"imageUri\":[\"${IMAGE_URI}\"]}" \
             --comment "Deploy Git commit ${GITHUB_SHA}" \
             --query "Command.CommandId" \
