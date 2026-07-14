@@ -30,3 +30,7 @@ output "security_group_id" {
   description = "Security group attached to the application instance"
   value       = aws_security_group.app.id
 }
+output "ssm_deployment_document_name" {
+  description = "SSM document used by GitHub Actions to deploy the application"
+  value       = aws_ssm_document.deploy.name
+}
