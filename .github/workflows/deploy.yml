@@ -125,7 +125,7 @@ jobs:
 
       - name: Verify public application endpoint
         run: |
-          for attempt in $(seq 1 12); do
+          for attempt in $(seq 1 24); do
             if curl --fail --silent "${APPLICATION_URL}" |
               grep --quiet "Cloud DevOps CI/CD Pipeline"; then
               echo "Public application health check passed"
